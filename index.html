@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FREE CHECKER NOT FOR SALE</title>
+    <link href="style.css" rel="stylesheet" id="bootstrap-css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/2MLFdXs/hash.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .card-body {
+            border-radius: 13px;
+        }
+        .btn {
+            font-size: 14px;
+            padding: 5px 8px;
+            margin: 0 2px;
+        }
+        .btn i {
+            margin-right: 0;
+        }
+        .card-title {
+            text-align: left;
+        }
+        .card-content {
+            text-align: left;
+            margin-left: 10px;
+        }
+        #gates {
+            background-color: #333333;
+            color: white;
+        }
+        .rainbow_text_animated {
+            background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: 58px;
+            font-family: 'kalam';
+            text-shadow: 0 0 35px #FF0000, 0 0 60px #FF0000;
+            color: transparent;
+            animation: rainbow_animation 2s ease-in-out infinite;
+            background-size: 400% 100%;
+        }
+        @keyframes rainbow_animation {
+            0%, 100% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 100% 0;
+            }
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 255, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+        .checker-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 20px;
+            padding-top: 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            border: 3px solid lightblue;
+            z-index: 1000;
+            text-align: center;
+            width: 300px;
+        }
+        .checker-box-content input, .checker-box-content select {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .checker-box-content {
+            margin-top: 20px;
+        }
+        .spinner-container {
+            position: relative;
+            width: 100%;
+            height: 90%;
+        }
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-left: 8px solid #ffffff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .checked-icon {
+            font-size: 40px;
+            color: #00ff00;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        .checked .checked-icon {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    <div class="checker-box" id="checker-box">
+        <div class="spinner-container">
+            <div class="spinner" id="spinner"></div>
+            <div class="checked-icon" id="checked-icon">
+                <i class="fas fa-check"></i>
+            </div>
+        </div>
+        <div class="checker-box-content">
+            <h3 id="checker-started">Checker Started</h3>
+            <p id="checking-status">Checking 0 card/s</p>
+        </div>
+    </div>
+    <br>
+    <center>
+        <div class="row col-md-12">
+            <div class="card col-sm-12">
+                <div class="card-body">
+                    <div class="md-form">
+                        <div class="col-md-12">
+                            <center>
+                                <h4 class="mb-2"><strong>FREE CHECKER NOT FOR SALE</strong></h4>
+                                <div class="md-form">
+                                    <span>CVV:</span>&nbsp;<span id="cLive" class="badge badge-success">0</span>
+                                    <span>CCN:</span>&nbsp;<span id="cWarn" class="badge badge-warning">0</span>
+                                    <span>DEAD:</span>&nbsp;<span id="cDie" class="badge badge-danger">0</span>
+                                    <span>Checked:</span>&nbsp;<span id="total" class="badge badge-info">0</span>
+                                    <span>Total:</span>&nbsp;<span id="carregadas" class="badge badge-dark">0</span>
+                                </div><br>
+                                <textarea type="text" style="text-align: center; background-color: rgba(255, 255, 255, .1); color:yellow;" placeholder="Enter Cards Here" id="lista" class="md-textarea form-control" rows="4"></textarea><br>
+                                <select style="text-align: center;" id="gates" class="form-control shadow-none mb-2 black-vatican">
+                                    <option value="acceptbluecard.php">ACCEPT BLUE CARD</option>
+                                    <option value="angelleyeppcpcc.php">ANGELLEYE_PPCP_CC</option>
+                                    <option value="bamboracreditcard.php">BAMBORA_CREDIT_CARD</option>
+                                    <option value="bluepay.php">BLUE PAY</option>
+                                    <option value="cardknox.php">CARDKNOX</option>
+                                    <option value="cyberflex.php">CYBERSOURCE_CREDIT_CARD</option>
+                                    <option value="cyberflex.php">CYBERSOURCE_CREDIT_CARD [ CCN ]</option>
+                                    <option value="cloverpayments.php">CLOVER_PAYMENTS</option>
+                                    <option value="braintreecreditcard.php">BRAINTREE_CREDIT_CARD</option>
+                                    <option value="braintreecc.php">BRAINTREE_CC</option>
+                                    <option value="eway.php">EWAY V1</option>
+                                    <option value="ewaydirect.php">EWAY V2</option>
+                                    <option value="infusionsoftcc.php">INFUSIONSOFT_CC</option>
+                                    <option value="intuitpaymentscreditcard.php">INTUIT_PAYMENTS_CREDIT_CARD</option>
+                                    <option value="monerisv1.php">MONERIS V1</option>
+                                    <option value="nmiv1.php">NMI V1</option>
+                                    <option value="nmiv2.php">NMI V2</option>
+                                   <option value="paytracev1.php">PAYTRACE V1</option>
+                                    <option value="paytracev2.php">PAYTRACE V2</option>
+                                    <option value="paytracev3.php">PAYTRACE V3</option>
+                                    <option value="paypalproall.php">PAYPAL [PAYPALPRO - PAYPAL_PRO - WPG PAYPAL_PRO - WPG PAYPAL_PRO_PAYFLOW - PAYPALPROPAYFLOW - PAYPAL_PRO_PAYFLOW] </option>
+                                    <option value="ppcpcreditcard.php">PPCP_CREDIT_CARD</option>
+                                    <option value="ppcpcreditcardCCN.php">PPCP_CREDIT_CARD [ CCN ]</option>
+                                    <option value="ppcpgateway.php">PPCP GATEWAY</option>
+                                    <option value="ppcpgatewayCCN.php">PPCP GATEWAY [ CCN ]</option>
+                                    <option value="ppcpcreditcardgateway.php">PPCP CREDIT CARD GATEWAY</option>
+                                    <option value="securesubmit.php">SECURE SUBMIT</option>
+                                    <option value="stripecc.php">STRIPE_CC</option>
+                                    <option value="stripeccCCN.php">STRIPE_CC [ CCN ]</option>
+                                    <option value="westpacpaywaynet.php">WESTPAC_PAYWAY_NET</option>
+                                    <option value="woocommercepayments.php">WOOCOMMERCE PAYMENTS</option>
+                                    <option value="woocommercepaymentsCCN.php">WOOCOMMERCE PAYMENTS [ CCN ]</option>
+
+                                </select>
+                            </center>
+                            &nbsp;
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                        <div style="position: relative; display: flex; justify-content: center;">
+                          <input type="text" id="website" 
+                                 style="text-align: center; background-color: rgba(255, 255, 255, .1); color:yellow; width: 80%; padding-right: 40px;" 
+                                 placeholder="Enter Website URL Here" 
+                                 class="md-textarea form-control" />
+                          <button id="editWebsiteBtn" style="
+                            position: absolute;
+                            right: 11%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background-color: rgba(255, 255, 255, 0.1);
+                            border: none;
+                            border-radius: 8px;
+                            padding: 5px;
+                            box-shadow: 2px 2px 5px #1c1c1c, -2px -2px 5px #4c4c4c;
+                            cursor: pointer;
+                            height: 30px;
+                            width: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          ">
+                            <i class="material-icons" style="color: #b0b0b0; font-size: 18px;">edit</i>
+                          </button>
+                        </div>
+                        <div class="checker-box" id="website-edit-box" style="display:none; text-align:center;">
+                          <h3 style="color:white;">WEBSITE FORMAT</h3>
+                          <textarea id="editWebsiteInput" style="width: 100%; height: 100px; background-color: rgba(255, 255, 255, .1); color:yellow; margin-top:10px; text-align:center;"></textarea>
+                          <br><br>
+                          <button class="btn btn-success" onclick="saveWebsiteEdits()">Save</button>
+                          <button class="btn btn-danger" onclick="closeWebsiteEditor()">Cancel</button>
+                        </div>
+                                <br>
+                            </center>
+                        </div>
+                        <div class="col-md-12">
+                        <center>
+                            <input type="text" style="text-align: center; background-color: rgba(255, 255, 255, .1); color:yellow;" placeholder="ip:port:user:pass" id="proxy" class="md-textarea form-control" />
+                            <br>
+                    <input type="text" 
+                           style="text-align: center; background-color: rgba(255, 255, 255, .1); color:yellow;" 
+                           placeholder="Chat ID: Bot Token" 
+                           id="telegramForwarder" 
+                           class="md-textarea form-control" />
+                            <br>
+                    </center>
+                        </div>
+                    <center>
+                        <div>
+                            <button class="btn btn-success" style="width: 100px; outline: none;" id="testar" onclick="start()"><b>START</b></button>
+                            <span style="display: inline-block; width: 10px;"></span> <!-- Add space between buttons -->
+                            <button class="btn btn-danger" style="width: 100px; outline: none;" id="stop" onclick="stopProcess()"><b>STOP</b></button>
+                            <br><br>
+                            <button class="btn btn-secondary" style="width: 200px; outline: none;" id="card-generator-btn" onclick="openCardGenerator()"><b>CARD GENERATOR</b></button>
+                            <br>
+                    </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-12">
+            <div class="card">
+                <div style="position: absolute; top: 0; right: 0;">
+                    <button id="mostra" class="btn btn-success">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                    <button id="copyCvv" class="btn btn-success">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <br>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">CVV: <span id="cLive2" class="badge badge-success">0</span></h6>
+                    <div id="bode" class="card-content"><span class="aprovadas"></span></div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-12">
+            <div class="card">
+                <div style="position: absolute; top: 0; right: 0;">
+                    <button id="mostra3" class="btn btn-warning">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                    <button id="copyCcn" class="btn btn-warning">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <br>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">CCN: <span id="cWarn2" class="badge badge-warning">0</span></h6>
+                    <div id="bode3" class="card-content"><span class="edrovadas"></span></div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-12">
+            <div class="card">
+                <div style="position: absolute; top: 0; right: 0;">
+                    <button id="mostra2" class="btn btn-danger">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                    <button id="deleteDeclined" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <br>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">DEAD: <span id="cDie2" class="badge badge-danger">0</span></h6>
+                    <div id="bode2" class="card-content"><span class="reprovadas"></span></div>
+                </div>
+            </div>
+        </div>
+    </center>
+    <br>
+    <!-- Card Generator Modal Box -->
+    <div class="checker-box" id="card-generator-box" style="display: none; text-align: center; width: 300px; padding: 20px; padding-top: 50px;">
+        <h3 style="color: white; margin-bottom: 20px;">CARD GENERATOR</h3>
+        <div class="checker-box-content" style="margin-top: 20px;">
+            <!-- BIN field -->
+            <input type="text" id="bin" placeholder="Enter BIN (e.g. 5617)" class="md-textarea form-control" 
+                   style="color:yellow; background-color: rgba(255, 255, 255, .1); text-align:center; margin-bottom: 10px;">
+            
+            <!-- Month and Year fields side by side -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <div style="width: 45%;">
+                    <label for="month" style="color:white;">MONTH</label>
+                    <select id="month" class="md-textarea form-control" 
+                            style="color:yellow; background-color: rgba(255, 255, 255, .1); text-align:center;">
+                        <option value="">Random</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+
+                <div style="width: 45%;">
+                    <label for="year" style="color:white;">YEAR</label>
+                    <select id="year" class="md-textarea form-control" 
+                            style="color:yellow; background-color: rgba(255, 255, 255, .1); text-align:center;">
+                        <option value="">Random</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CVV field -->
+            <input type="text" id="cvv" placeholder="Enter CVV" class="md-textarea form-control" 
+                   style="color:yellow; background-color: rgba(255, 255, 255, .1); text-align:center; margin-bottom: 10px;">
+            
+            <!-- Quantity field -->
+            <input type="number" id="quantity" placeholder="Enter Quantity (Max: 5000)" min="1" max="5000" 
+                   class="md-textarea form-control" style="color:yellow; background-color: rgba(255, 255, 255, .1); text-align:center; margin-bottom: 20px;">
+            
+            <!-- Buttons -->
+            <button class="btn btn-success" style="margin-bottom: 10px; width: 100%;" onclick="generateCards()">Generate Cards</button>
+            <button class="btn btn-danger" style="width: 100%;" onclick="closeCardGenerator()">Close</button>
+        </div>
+    </div>
+
+    <footer>
+        <center>
+            <span class="badge badge-dark rainbow_text_animated"><h1></h1></span>
+        </center>
+    </footer>
+    <!-- Audio element for CVV sound -->
+    <audio id="cvv-audio" src="cvv.mp3" preload="auto"></audio>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#bode").hide();
+            $("#bode3").hide();
+            $("#bode2").hide();
+
+            $('#mostra').click(function(){
+                $("#bode").slideToggle();
+                toggleIcon('#mostra');
+            });
+            
+            $('#mostra3').click(function(){
+                $("#bode3").slideToggle();
+                toggleIcon('#mostra3');
+            });
+            
+            $('#mostra2').click(function(){
+                $("#bode2").slideToggle();
+                toggleIcon('#mostra2');
+            });
+            
+            $('#copyCvv').click(function() {
+                copyToClipboard($('.aprovadas').html());
+                showNotification('COPIED CVV');
+            });
+
+            $('#copyCcn').click(function() {
+                copyToClipboard($('.edrovadas').html());
+                showNotification('COPIED CCN');
+            });
+
+            $('#deleteDeclined').click(function() {
+                $('.reprovadas').empty();
+                showNotification('REMOVED DECLINED');
+            });
+        });
+
+        function toggleIcon(selector) {
+            var icon = $(selector).find('i');
+            if (icon.hasClass('fa-eye-slash')) {
+                icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            }
+        }
+
+        function copyToClipboard(html) {
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            document.body.appendChild(tempDiv);
+            
+            var range = document.createRange();
+            range.selectNode(tempDiv);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copying text command was ' + msg);
+            } catch (err) {
+                console.log('Oops, unable to copy', err);
+            }
+            
+            window.getSelection().removeAllRanges();
+            document.body.removeChild(tempDiv);
+        }
+
+        function showNotification(message) {
+            var notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        let isStopped = false; // Global variable to track the stop state
+
+        async function start() {
+            isStopped = false; // Reset stop flag
+
+            // Validate inputs before proceeding
+            var lista = $("#lista").val().trim();
+            var website = $('#website').val().trim();
+            var proxy = $('#proxy').val().trim(); // Capture proxy information
+            var telegramForwarder = $('#telegramForwarder').val().trim(); // Capture Telegram Forwarder information
+
+            if (!website) {
+            showNotification('Please enter a website URL'); // Show notification for missing website
+            return; 
+            }
+
+            if (!lista) {
+                showNotification('No cards to check'); // Show notification for missing cards
+            return;
+            }
+
+            if (!proxy) {
+            console.log('No proxy provided, continuing without proxy...');
+            } else {
+            console.log('Using proxy:', proxy);
+            }
+            if (!telegramForwarder) {
+            console.log('No Telegram Forwarder provided, continuing without Telegram forwarding...');
+            } else {
+            console.log('Using Telegram Forwarder:', telegramForwarder);
+            }
+
+            // Show checker box only if all validations pass
+            $('#checker-box').show(); // Show the checker box
+            $('#checker-started').text('Checker Started').show(); // Reset and show "Checker Started"
+            $('#checking-status').text('Checking 0 card/s').show(); // Reset and show "Checking Status"
+            $('#checked-icon').removeClass('checked'); // Remove checkmark icon
+            $('#spinner').show(); // Show the spinner
+
+            var lines = lista.split("\n");
+            var total = lines.length;
+            $('#checking-status').text('Checking ' + total + ' card/s'); // Update the status text with the total cards
+            var ap = 0, ed = 0, rp = 0;
+
+            setTimeout(function () {
+            $('#spinner').hide(); // Hide the spinner after processing
+            $('#checker-started').hide(); // Hide "Checker Started" text
+            $('#checking-status').hide(); // Hide "Checking Status" text
+            $('#checked-icon').addClass('checked'); // Show the checkmark icon
+            $('#checker-box').hide(); // Show checkmark
+
+            setTimeout(function () {
+            $('#checker-box').hide(); // Hide the checker box after a short delay
+                }, 1000); // Add timeout for the checker box
+            }, 2000); // Adjust timeout for spinner completion
+            const MAX_THREADS = 8;
+
+            async function processCard(value, retries = 3) {
+            if (isStopped) return; // Exit if process is stopped
+
+            return new Promise(function (resolve, reject) {
+            var gate = $("#gates").val();
+            var url = gate + '?lista=' + encodeURIComponent(value) 
+               + '&website=' + encodeURIComponent(website) 
+               + '&proxy=' + encodeURIComponent(proxy) 
+               + '&telegramForwarder=' + encodeURIComponent(telegramForwarder);
+            $.ajax({
+            url: url,
+            type: 'GET',
+            async: true,
+            success: function (resultado) {
+                if (isStopped) return; // Exit if process is stopped
+
+                if (resultado.match("#CVV")) {
+                    aprovadas(resultado + "");
+                    ap++;
+                    document.getElementById('cvv-audio').play();
+                } else if (resultado.match("#CCN")) {
+                    edrovadas(resultado + "");
+                    ed++;
+                } else {
+                    reprovadas(resultado + "");
+                    rp++;
+                }
+
+                var checked = ap + ed + rp;
+                $('#cLive').html(ap);
+                $('#cWarn').html(ed);
+                $('#cDie').html(rp);
+                $('#total').html(checked);
+                $('#cLive2').html(ap);
+                $('#cWarn2').html(ed);
+                $('#cDie2').html(rp);
+                $('#carregadas').html(total);
+
+                removelinha();
+                resolve();
+            },
+            error: function (error) {
+                if (isStopped) return; // Exit if process is stopped
+
+                console.error('Error processing card:', error);
+                if (retries > 0) {
+                    setTimeout(() => {
+                        console.log(`Retrying... Attempts left: ${retries - 1}`);
+                        processCard(value, retries - 1).then(resolve).catch(reject);
+                    }, 1000);
+                } else {
+                    reject(error);
+                }
+            }
+        });
+    });
+}
+            async function threadPool(lines, maxThreads) {
+            let activeThreads = 0;
+            let queueIndex = 0;
+            return new Promise((resolve, reject) => {
+            function nextTask() {
+                if (isStopped) {
+                    activeThreads = 0;
+                    resolve();
+                    return;
+                }
+
+                if (queueIndex >= lines.length && activeThreads === 0) {
+                    resolve();
+                    return;
+                }
+
+                // Corrected the closure of nextTask
+            if (queueIndex < lines.length && activeThreads < maxThreads) {
+                activeThreads++;
+                const line = lines[queueIndex];
+                queueIndex++;
+
+            // Removed redundant recursive call of nextTask inside then/catch
+                processCard(line).then(() => {
+                activeThreads--;
+                nextTask(); // Proceed to the next task after resolving
+                    }).catch(() => {
+                activeThreads--;
+                nextTask(); // Proceed to the next task even after catching an error
+                });
+            }
+        }
+            for (let i = 0; i < maxThreads; i++) {
+                nextTask();
+            }
+        });
+    }
+
+    threadPool(lines, MAX_THREADS).then(() => {
+        if (!isStopped) showNotification('All cards processed successfully.');
+    }).catch((err) => {
+        console.error('Error during card processing:', err);
+    });
+}
+
+            function stopProcess() {
+                isStopped = true; // Set the stop flag to true
+            $('#checker-box').hide(); // Hide the checker box
+            showNotification('STOP CHECKING');
+}
+
+            // Function to open the edit box
+            document.getElementById('editWebsiteBtn').onclick = function() {
+                document.getElementById('editWebsiteInput').value = document.getElementById('website').value;
+                document.getElementById('website-edit-box').style.display = 'block';
+            };
+            
+            function saveWebsiteEdits() {
+                let input = document.getElementById('editWebsiteInput').value;
+                input = input.split('\n').map(s => s.trim()).filter(Boolean).join(',');
+                document.getElementById('website').value = input;
+                document.getElementById('website-edit-box').style.display = 'none';
+            }
+            // Function to cancel edits
+            function closeWebsiteEditor() {
+                document.getElementById('website-edit-box').style.display = 'none';
+            }
+            
+        function aprovadas(str) {
+            $(".aprovadas").append(str + "<br>");
+        }
+
+        function reprovadas(str) {
+            $(".reprovadas").append(str + "<br>");
+        }
+
+        function edrovadas(str) {
+            $(".edrovadas").append(str + "<br>");
+        }
+
+        function removelinha() {
+            var lines = $("#lista").val().split('\n');
+            lines.splice(0, 1);
+            $("#lista").val(lines.join("\n"));
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function padWithZero(number) {
+            return number < 10 ? '0' + number : number;
+        }
+
+        // Function to generate multiple cards based on the BIN and quantity
+        function generateCards() {
+    var bin = $('#bin').val().trim();
+    var month = $('#month').val().trim();
+    var year = $('#year').val().trim();
+    var cvv = $('#cvv').val().trim();
+    var quantity = parseInt($('#quantity').val().trim());
+
+    // If BIN is not provided, show an error in the upper-right notification
+    if (!bin || bin.length < 4) {
+        showNotification('Error: Please provide a valid BIN (at least 4 digits)');
+        return;
+    }
+
+    // Validate the quantity (max 5000) and show an error in the upper-right notification
+    if (!quantity || quantity < 1 || quantity > 5000) {
+        showNotification('Error: Please provide a valid quantity (1 to 5000)');
+        return;
+    }
+
+    var generatedCards = [];
+
+    for (var i = 0; i < quantity; i++) {
+        // Generate the rest of the card number to make it 16 digits
+        var cardBin = bin;
+        while (cardBin.length < 15) {
+            cardBin += getRandomInt(0, 9);  // Add random digits to BIN
+        }
+
+        // Generate Luhn checksum digit for the 16th number
+        var cardNumber = generateLuhn(cardBin);
+
+        // Randomize Month if not provided
+        var genMonth = month ? month : padWithZero(getRandomInt(1, 12));
+
+        // Randomize Year if not provided
+        var genYear = year ? year : getRandomInt(2024, 2034);
+
+        // Randomize CVV if not provided
+        var genCvv = cvv ? cvv : padWithZero(getRandomInt(100, 999));  // Random 3-digit CVV
+
+        // Add generated card to the list
+        var generatedCard = `${cardNumber}|${genMonth}|${genYear}|${genCvv}`;
+        generatedCards.push(generatedCard);
+    }
+
+    // Display all generated card details
+    $('#lista').val($('#lista').val() + generatedCards.join("\n") + "\n");
+    showNotification(quantity + ' Cards Generated.');  // Show success notification
+    }
+        // Luhn Algorithm to generate the 16th digit (checksum)
+        function generateLuhn(number) {
+            var arr = (number + '').split('').reverse().map(x => parseInt(x));
+            var sum = arr.reduce((acc, val, i) => {
+                if (i % 2 !== 0) {
+                    val *= 2;
+                    if (val > 9) val -= 9;
+                }
+                return acc + val;
+            }, 0);
+            var checkDigit = (10 - (sum % 10)) % 10;
+            return number + checkDigit;
+        }
+
+        // Function to open the Card Generator Modal
+        function openCardGenerator() {
+            $('#card-generator-box').show();
+        }
+
+        // Function to close the Card Generator Modal
+        function closeCardGenerator() {
+            $('#card-generator-box').hide();
+        }
+    </script>
+</body>
+</html>
